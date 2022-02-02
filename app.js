@@ -3,6 +3,7 @@ let deck={}; //creates a variable to save our deck in
 let previousCard = 0;
 let newCard = 0;
 let arraywithCards = [] //creates an array with the card to be compared
+let points = 0;
 
 const card = document.getElementById("card");
 const lowerButton = document.getElementById("lower");
@@ -64,11 +65,15 @@ async function lower() {
   arraywithCards.push(currentCard); // adds the card
 
   if (arraywithCards[0] > arraywithCards[1]) { //compare the first card with the second
-    output.textContent = "correct, it's lower"  
+    output.textContent = "correct, it's lower L";
+    points++;
+    document.getElementById("points").innerHTML = points;
+    return points;
+    
   } else if (arraywithCards[0] === arraywithCards[1]){
-    output.textContent = "sorry it was the same card"
+    output.textContent = "the same card - no points L"
   } else {
-    output.textContent = "sorry it was higher"
+    output.textContent = "it's higher, game over L"
   }
 arraywithCards.shift(); //removes the first card
 }
@@ -79,11 +84,14 @@ async function higher() {
   arraywithCards.push(currentCard); // adds the card
 
   if (arraywithCards[0] < arraywithCards[1]) { //compare the first card with the second
-    output.textContent = "correct, it's higher"  
+    output.textContent = "correct, it's higher H";
+    points++;
+    document.getElementById("points").innerHTML = points;
+    return points;   
   } else if (arraywithCards[0] === arraywithCards[1]){
-    output.textContent = "sorry it was the same card"
+    output.textContent = "the same card - no points H"
   } else {
-    output.textContent = "sorry it was lower"
+    output.textContent = "it's lower, game over H"
   }
 arraywithCards.shift(); //removes the first card
 }
@@ -95,11 +103,14 @@ async function sameCard() {
   arraywithCards.push(currentCard);
 
   if (arraywithCards[0] === arraywithCards[1]) {
-    output.textContent = "Correct, it was the same card"
+    output.textContent = "Correct, it was the same card S"
+    points++;
+    document.getElementById("points").innerHTML = points;
+    return points; 
   } else if (arraywithCards[0] < arraywithCards[1]){
-    output.textContent = "Sorry it was higher"
+    output.textContent = "Sorry it was higher - game over S"
   } else {
-    output.textContent = "sorry it was lower"
+    output.textContent = "sorry it was lower - game over S"
   }
   arraywithCards.shift(); //removes the first card
 }
