@@ -1,7 +1,7 @@
 <!-- challenge.md -->
 # Web Developer Technical Challenge
 Develop a webapp for a ‘higher or lower’ card guessing game.
-Using the deck of cards api [DeckOfCards.com](https://deckofcardsapi.com/) generate a new deck of cards and save the
+Using the deck of cards api [DeckOfCardsAPI.com](https://deckofcardsapi.com/) generate a new deck of cards and save the
 deck_id for use throughout the game. Draw a card from the deck and present this to the user.
 After the first card has been presented; the user should be able to guess if the next card will be
 lower or higher in value. Once submitting the guess, the application should draw another card from
