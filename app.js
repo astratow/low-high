@@ -4,6 +4,7 @@ let previousCard = 0;
 let newCard = 0;
 let arraywithCards = [] //creates an array with the card to be compared
 let points = 0;
+let cardsRemaining = 52;
 
 const card = document.getElementById("card");
 const lowerButton = document.getElementById("lower");
@@ -27,7 +28,8 @@ async function drawFirstCard() {
   const data = await res.json();
   image.setAttribute("src", data.cards[0].image);
   previousCard = convertRoyals(data.cards[0].value);
-  
+  cardsRemaining = data.remaining;
+  document.getElementById("cardsRemaining").innerHTML = cardsRemaining;
   return previousCard;
 }
 
@@ -38,6 +40,14 @@ async function drawnewCard() {
   image.setAttribute("src", data.cards[0].image);
   newCard = data.cards[0].value;
   newCard = convertRoyals(newCard);
+  cardsRemaining = data.remaining;
+  
+  if(cardsRemaining===0){
+    document.getElementById("game").innerHTML = "Game over!";
+  } else{
+    document.getElementById("cardsRemaining").innerHTML = cardsRemaining;
+  }
+  
   return newCard;
   }
 
