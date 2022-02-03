@@ -56,26 +56,23 @@ higherButton.addEventListener("click", async() => {
   await higher();
 });
 
-sameCardbutton.addEventListener("click", async() =>{
-  await sameCard();
-});
 
 async function lower() {
   const currentCard = await drawnewCard(); // draws a card
   arraywithCards.push(currentCard); // adds the card
 
   if (arraywithCards[0] > arraywithCards[1]) { //compare the first card with the second
-    output.textContent = "correct, it's lower L";
+    output.textContent = "Correct, it's lower ";
     points++;
     document.getElementById("points").innerHTML = points;
     // return points;
     
   } else if (arraywithCards[0] === arraywithCards[1]){
-    output.textContent = "the same card "
+    output.textContent = "The same card - You have got point!";
     points++;
     document.getElementById("points").innerHTML = points;
   } else {
-    output.textContent = "it's higher, game over L"
+    output.textContent = "It's higher, game over "
   }
 arraywithCards.shift(); //removes the first card
 }
@@ -86,38 +83,21 @@ async function higher() {
   arraywithCards.push(currentCard); // adds the card
 
   if (arraywithCards[0] < arraywithCards[1]) { //compare the first card with the second
-    output.textContent = "correct, it's higher H";
+    output.textContent = "Correct, it's higher!";
     points++;
     document.getElementById("points").innerHTML = points;
     // return points;   
   } else if (arraywithCards[0] === arraywithCards[1]){
-    output.textContent = "the same card "
+    output.textContent = "The same card - You have got a point!"
     points++;
     document.getElementById("points").innerHTML = points;
   } else {
-    output.textContent = "it's lower, game over H"
+    output.textContent = "It's lower, game over!"
   }
 arraywithCards.shift(); //removes the first card
 }
 
-// async function sameCard() {
-//   const currentCard = await drawnewCard(); // draws a card
 
-
-//   arraywithCards.push(currentCard);
-
-//   if (arraywithCards[0] === arraywithCards[1]) {
-//     output.textContent = "Correct, it was the same card S"
-//     points++;
-//     document.getElementById("points").innerHTML = points;
-//     return points; 
-//   } else if (arraywithCards[0] < arraywithCards[1]){
-//     output.textContent = "Sorry it was higher - game over S"
-//   } else {
-//     output.textContent = "sorry it was lower - game over S"
-//   }
-//   arraywithCards.shift(); //removes the first card
-// }
 
 // Check if it is between 2 and 10 in strings
 async function convertRoyals(card) {
