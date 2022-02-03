@@ -44,6 +44,8 @@ async function drawnewCard() {
   
   if(cardsRemaining===0){
     document.getElementById("game").innerHTML = "Game over!";
+    lowerButton.disabled = true;
+    higherButton.disabled = true;
   } else{
     document.getElementById("cardsRemaining").innerHTML = cardsRemaining;
   }
@@ -83,6 +85,9 @@ async function lower() {
     document.getElementById("points").innerHTML = points;
   } else {
     output.textContent = "It's higher, game over "
+    document.getElementById("game").innerHTML = "Game over!";
+    lowerButton.disabled = true;
+    higherButton.disabled = true;
   }
 arraywithCards.shift(); //removes the first card
 }
@@ -103,6 +108,9 @@ async function higher() {
     document.getElementById("points").innerHTML = points;
   } else {
     output.textContent = "It's lower, game over!"
+    document.getElementById("game").innerHTML = "Game over!";
+    lowerButton.disabled = true;
+    higherButton.disabled = true;
   }
 arraywithCards.shift(); //removes the first card
 }
