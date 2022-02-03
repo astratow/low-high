@@ -68,7 +68,7 @@ async function lower() {
     // return points;
     
   } else if (arraywithCards[0] === arraywithCards[1]){
-    output.textContent = "The same card - You have got point!";
+    output.textContent = "The same card - You have got a point!";
     points++;
     document.getElementById("points").innerHTML = points;
   } else {
