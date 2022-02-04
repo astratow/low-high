@@ -10,20 +10,25 @@
   </head>
   <body>
     
-      <header>
+      <header> 
         <nav>
           <img src="./img/Higher_or_Lower_logo.png" alt="logo lower ot higher" class="logo-img">
                 <!-- <h1 class="title">Higher/Lower</h1> -->
         </nav>
       </header>
+      <p>
+        Draw a card. Guess whether next one will be lower or higher (equal counts as a win). If guessed correctly - you get a point, otherwise game ends.
+      </p>
+      <button id="drawCard">Start!</button>
+      <button id="newGame">New Game</button>
     <div id="card">
         
         <img id="image" src="./img/card-back.png" alt="" width="226" height="314"/>
     </div>
-    <button id="drawCard">Draw a Card</button>
+   
     <button id="lower"><< Lower Card</button>
     <!-- <button id="sameCard">The Same Card</button> -->
-    <button id="higher">Higher >></button>
+    <button id="higher">Higher Card>></button>
     
     <div id="output"></div>
     <h2>Points: <label id="points">0</label></h2>

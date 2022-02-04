@@ -11,11 +11,11 @@ const lowerButton = document.getElementById("lower");
 const higherButton = document.getElementById("higher");
 const drawCardButton = document.getElementById("drawCard");
 const output = document.getElementById("output");
-const sameCardbutton = document.getElementById("sameCard");
+const url_base = "https://deckofcardsapi.com/api/deck/"
 
 async function getDeck(){ 
-    const res = await fetch(
-        "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1" );
+    const res = await fetch(url_base +
+        "new/shuffle/?deck_count=1" );
     const data = await res.json();
     deck = data; // assigns data to our deck so that we can use the variable later
     
@@ -24,7 +24,7 @@ async function getDeck(){
 getDeck(); // Calls the function directly
 
 async function drawFirstCard() {
-  const res = await fetch(`https://deckofcardsapi.com/api/deck/${deck.deck_id}/draw/?count=1`);
+  const res = await fetch(url_base + deck.deck_id + `/draw/?count=1`);
   const data = await res.json();
   image.setAttribute("src", data.cards[0].image);
   previousCard = convertRoyals(data.cards[0].value);
@@ -34,8 +34,8 @@ async function drawFirstCard() {
 }
 
 async function drawnewCard() {
-  const res = await fetch(
-      `https://deckofcardsapi.com/api/deck/${deck.deck_id}/draw/?count=1`);
+  const res = await fetch(url_base + deck.deck_id +
+      `/draw/?count=1`);
   const data = await res.json();
   image.setAttribute("src", data.cards[0].image);
   newCard = data.cards[0].value;
@@ -56,6 +56,7 @@ async function drawnewCard() {
 drawCardButton.addEventListener("click", async() => {
   const firstCard = await drawFirstCard();
   arraywithCards.push(firstCard);
+  drawCardButton.style.visibility = "hidden";
   // drawCardButton.disabled = true;
 });
 
@@ -68,6 +69,9 @@ higherButton.addEventListener("click", async() => {
   await higher();
 });
 
+newGame.addEventListener("click", async() => { 
+  await location.reload();
+});
 
 async function lower() {
   const currentCard = await drawnewCard(); // draws a card
@@ -77,12 +81,12 @@ async function lower() {
     output.textContent = "Correct, it's lower ";
     points++;
     document.getElementById("points").innerHTML = points;
-    // return points;
     
   } else if (arraywithCards[0] === arraywithCards[1]){
     output.textContent = "The same card - You have got a point!";
     points++;
     document.getElementById("points").innerHTML = points;
+
   } else {
     output.textContent = "It's higher, game over "
     document.getElementById("game").innerHTML = "Game over!";
@@ -101,11 +105,12 @@ async function higher() {
     output.textContent = "Correct, it's higher!";
     points++;
     document.getElementById("points").innerHTML = points;
-    // return points;   
+   
   } else if (arraywithCards[0] === arraywithCards[1]){
     output.textContent = "The same card - You have got a point!"
     points++;
     document.getElementById("points").innerHTML = points;
+
   } else {
     output.textContent = "It's lower, game over!"
     document.getElementById("game").innerHTML = "Game over!";
