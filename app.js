@@ -56,7 +56,7 @@ async function drawnewCard() {
 drawCardButton.addEventListener("click", async() => {
   const firstCard = await drawFirstCard();
   arraywithCards.push(firstCard);
-  drawCardButton.disabled = true;
+  // drawCardButton.disabled = true;
 });
 
 
