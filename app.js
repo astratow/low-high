@@ -25,6 +25,7 @@ const drawCardButton = document.getElementById("drawCard");
 const newGameButton = document.getElementById("newGame");
 const output = document.getElementById("output");
 const aces = document.getElementById("acesCheck");
+const gameInfo = document.getElementById("gameTracker")
 
 
 const NO_OF_HIGH_SCORES = 10;
@@ -150,6 +151,7 @@ function gameOver(){
     document.getElementById("game").innerHTML = gameText.end;
     disableGameButtons()
     newGameButton.style.visibility = "visible";
+    gameInfo.style.color = "red";
     checkHighScore(score);
 }
 
@@ -169,6 +171,7 @@ function enableGameButtons(){
 function addPoints(){
     score++;
     document.getElementById("points").innerHTML = score;
+    gameInfo.style.color = "green";
     return score;
 }
 
