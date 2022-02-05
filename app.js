@@ -1,19 +1,32 @@
+// variables
 let deck={}; //creates a variable to save our deck in
 let previousCard = 0;
 let newCard = 0;
 let arrayWithCards = [] //creates an array with the card to be compared
-let points = 0;
-let cardsRemaining = 52;
-let acesHighest = document.getElementById("#acesHighCheckBoxId");
+let score = 0; // points counting from 0
+let cardsRemaining = 52; //52 cards deck used
 
 
-const card = document.getElementById("card");
+// id calls
+const acesHighest = document.getElementById("#acesHighCheckBoxId"); //checkbox allows user to decide value of ACE
+const card = document.getElementById("card"); //
 const lowerButton = document.getElementById("lower");
 const higherButton = document.getElementById("higher");
 const drawCardButton = document.getElementById("drawCard");
 const newGameButton = document.getElementById("newGame");
 const output = document.getElementById("output");
+const aces = document.getElementById("acesCheck");
+
+const NO_OF_HIGH_SCORES = 10;
+const HIGH_SCORES = 'highScores';
+const highScoreString = localStorage.getItem(HIGH_SCORES);
+const highScores = JSON.parse(highScoreString) ?? [];
+const highScoreList = document.getElementById(HIGH_SCORES);
+
+// API call
 const url_base = "https://deckofcardsapi.com/api/deck/"
+
+// game text object
 const gameText = {
   same: "The same card - You have got a point!",
   correct: "Well done, ",
@@ -42,6 +55,7 @@ async function drawFirstCard() {
   image.setAttribute("src", data.cards[0].image);
   previousCard = convertRoyals(data.cards[0].value);
   cardsRemaining = data.remaining;
+  aces.style.visibility = "hidden";
   displayRemainingCard();
   return previousCard;
 }
@@ -68,6 +82,7 @@ drawCardButton.addEventListener("click", async() => {
   arrayWithCards.push(firstCard);
   drawCardButton.style.visibility = "hidden";
   newGameButton.style.visibility = "hidden";
+
   enableGameButtons();
 });
 
@@ -124,6 +139,7 @@ function gameOver(){
     document.getElementById("game").innerHTML = gameText.end;
     disableGameButtons()
     newGameButton.style.visibility = "visible";
+    checkHighScore(account.score);
 }
 
 // disables game functionality
@@ -140,8 +156,8 @@ function enableGameButtons(){
 
 // adds and dispalyspoints
 function addPoints(){
-    points++;
-    document.getElementById("points").innerHTML = points;
+    score++;
+    document.getElementById("points").innerHTML = score;
 }
 
 // displays number of cards in the deck
@@ -163,3 +179,32 @@ async function convertRoyals(card) {
     }
 }
 
+function checkHighScore(score) {
+  const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES)) ?? [];
+  const lowestScore = highScores[NO_OF_HIGH_SCORES-1]?.score ?? 0;
+  
+  if (score > lowestScore) {
+    saveHighScore(score, highScores);
+    showHighScores(); 
+  }
+}
+
+function saveHighScore(score, highScores) {
+  const name = prompt('You got a highscore! Enter name:');
+  const newScore = { score, name  };
+  
+  // 1. Add to list
+  highScores.push(newScore);
+
+  // 2. Sort the list
+  highScores.sort((a, b) => b.score-a.score);
+  
+  // 3. Select new list
+  highScores.splice(NO_OF_HIGH_SCORES);
+  
+  // 4. Save to local storage
+  localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
+};
+highScoreList.innerHTML = highScores.map((score) => 
+  `<li>${score.score} - ${score.name}`
+);

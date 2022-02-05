@@ -12,15 +12,18 @@ body{
 
 button{
     box-sizing: border-box;
-    border: none;  
+    border: white;  
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 1.4rem;
+    padding: 0.3em;
+    margin: 0.4em   ;
 }
-p{
-    text-align: justify-all;
-}
+
+
+
+
 .font-standard{
     font-size: 1.4rem;
 }
@@ -30,4 +33,7 @@ p{
 .main-container{   
     display: flex;
     justify-content: center;
+}
+.game-control{
+    padding: 0.4em;
 }

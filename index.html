@@ -10,15 +10,16 @@
     <script src="app.js" defer></script>
   </head>
   <body>
-    
+    <div>
       <header>        
           <img src="./img/Higher_or_Lower_logo.png" alt="logo lower ot higher" class="logo-img">
       </header>
-      <p>
+      <p id="rules">
         Draw a card. Guess whether next one will be lower or higher (equal counts as a win).<br>If guessed correctly - you get a point, otherwise game ends.<br>
-        You can decide whether Ace is lowest or highest card by ticking the box: 
+        
       </p>
-      <div>
+      <div id="acesCheck">
+        You can decide whether Ace is lowest or highest card by ticking the box:<br>
         <input type="checkbox" id="#acesHighCheckBoxId" name="aces"
          checked>
         <label for="scales">Highest Aces</label>
@@ -27,7 +28,6 @@
       <button id="newGame">New Game</button>
       <button id="drawCard">Draw a Card</button>
     <div id="card">
-        
         <img id="image" src="./img/card-back.png" alt="" width="226" height="314"/>
     </div>
    <div class="game-control">
@@ -35,14 +35,19 @@
       <i class="fas fa-angle-double-down"></i> Lower Card 
       <i class="fas fa-angle-double-down"></i>
     </button>
-   
     <button id="higher">
       <i class="fas fa-angle-double-up"></i> Higher Card 
       <i class="fas fa-angle-double-up"></i> 
     </button>
     </div>
-    <h2><div id="output"></div></h2>
-    <h2>Points: <label id="points">0</label></h2>
-    <h2 id="game">Cards remaining: <label id="cardsRemaining">52</label></h2>
+    <div>
+      <h2 id="output"></h2>
+      <h2>Points: <label id="points">0</label></h2>
+      <h2 id="game">Cards remaining: <label id="cardsRemaining">52</label></h2>
+    </div>
+    <div>
+      <h2>HIGH SCORES</h2>
+      <ol id=”highScores”></ol>
+    </div>
   </body>
 </html>
