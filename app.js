@@ -6,16 +6,22 @@ let points = 0;
 let cardsRemaining = 52;
 let acesHighest = document.getElementById("#acesHighCheckBoxId");
 
+
 const card = document.getElementById("card");
 const lowerButton = document.getElementById("lower");
 const higherButton = document.getElementById("higher");
 const drawCardButton = document.getElementById("drawCard");
+const newGameButton = document.getElementById("newGame");
 const output = document.getElementById("output");
 const url_base = "https://deckofcardsapi.com/api/deck/"
 const gameText = {
   same: "The same card - You have got a point!",
-  correctLower: "Correct, it's lower!"
-}
+  correct: "Well done, ",
+  lower: "it's lower!",
+  higher: "it's higher!",
+  wrong: "I'm sorry, ",
+  end: "Game over!"
+};
 
 
 async function getDeck(){ 
@@ -61,6 +67,7 @@ drawCardButton.addEventListener("click", async() => {
   const firstCard = await drawFirstCard();
   arrayWithCards.push(firstCard);
   drawCardButton.style.visibility = "hidden";
+  newGameButton.style.visibility = "hidden";
   enableGameButtons();
 });
 
@@ -74,7 +81,7 @@ higherButton.addEventListener("click", async() => {
 });
 
 // starts new game by refreshing page
-newGame.addEventListener("click", async() => { 
+newGameButton.addEventListener("click", async() => { 
   await location.reload();
 });
 
@@ -83,13 +90,13 @@ async function lower() {
   const currentCard = await drawNewCard(); // draws a card
   arrayWithCards.push(currentCard); 
   if (arrayWithCards[0] > arrayWithCards[1]) { 
-    output.textContent = "Correct, it's lower!";
+    output.textContent = gameText.correct + gameText.lower;
     addPoints();
   } else if (arrayWithCards[0] === arrayWithCards[1]){
-    output.textContent = "The same card - You have got a point!";
+    output.textContent = gameText.same;
     addPoints();
   } else {
-    output.textContent = "It's higher, game over! "
+    output.textContent =  gameText.wrong + gameText.higher;
     gameOver();
   }
 arrayWithCards.shift(); //removes the first card
@@ -100,13 +107,13 @@ async function higher() {
   const currentCard = await drawNewCard(); // draws a card
   arrayWithCards.push(currentCard); // adds the card
   if (arrayWithCards[0] < arrayWithCards[1]) { //compare the first card with the second
-    output.textContent = "Correct, it's higher!";
+    output.textContent = gameText.correct + gameText.higher;
     addPoints();
   } else if (arrayWithCards[0] === arrayWithCards[1]){
-    output.textContent = "The same card - You have got a point!"
+    output.textContent = gameText.same;
     addPoints();
   } else {
-    output.textContent = "It's lower, game over!"
+    output.textContent = gameText.wrong + gameText.lower;
     gameOver();
   }
 arrayWithCards.shift(); //removes the first card
@@ -114,8 +121,9 @@ arrayWithCards.shift(); //removes the first card
 
 // quits the game
 function gameOver(){
-    document.getElementById("game").innerHTML = "Game over!";
+    document.getElementById("game").innerHTML = gameText.end;
     disableGameButtons()
+    newGameButton.style.visibility = "visible";
 }
 
 // disables game functionality

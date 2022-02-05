@@ -1,0 +1,33 @@
+*, *::after, *::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    box-sizing: border-box;
+    background-position: center;
+    text-align: center;
+}
+
+button{
+    box-sizing: border-box;
+    border: none;  
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.4rem;
+}
+p{
+    text-align: justify-all;
+}
+.font-standard{
+    font-size: 1.4rem;
+}
+.center{
+
+}
+.main-container{   
+    display: flex;
+    justify-content: center;
+}

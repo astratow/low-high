@@ -5,45 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lower or Higher Card Game</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="stylesheet" href="style.css" />
     <script src="app.js" defer></script>
   </head>
   <body>
     
-      <header> 
-        <nav>
-          <div class="dropdown-content">
-            <p>
-              Draw a card. Guess whether next one will be lower or higher (equal counts as a win).<br>If guessed correctly - you get a point, otherwise game ends.<br>
-              You can decide whether Ace is lowest or highest card by ticking the box: 
-            </p>
-          </div>
-          
-        </nav>
+      <header>        
+          <img src="./img/Higher_or_Lower_logo.png" alt="logo lower ot higher" class="logo-img">
       </header>
-      
-    <div>
+      <p>
+        Draw a card. Guess whether next one will be lower or higher (equal counts as a win).<br>If guessed correctly - you get a point, otherwise game ends.<br>
+        You can decide whether Ace is lowest or highest card by ticking the box: 
+      </p>
+      <div>
         <input type="checkbox" id="#acesHighCheckBoxId" name="aces"
          checked>
         <label for="scales">Highest Aces</label>
+      </div>
+      
+      <button id="newGame">New Game</button>
+      <button id="drawCard">Draw a Card</button>
+    <div id="card">
+        
+        <img id="image" src="./img/card-back.png" alt="" width="226" height="314"/>
     </div>
-    <div>
-      <button class="game-btn" id="newGame">New Game</button>
-      <button class="game-btn" id="drawCard">Draw a Card</button>
-    </div>
-    <div class="deck" id="card">
-        <img class="deck" id="image" src="./img/card-back.png" alt="deck" width="226" height="314"/>
-    </div>
+   <div class="game-control">
+    <button id="lower">
+      <i class="fas fa-angle-double-down"></i> Lower Card 
+      <i class="fas fa-angle-double-down"></i>
+    </button>
    
-    <button class="game-btn" id="lower"><< Lower Card</button>
-    <button class="game-btn" id="higher">Higher Card>></button>
-    
-    <div id="output"></div>
-      <h2 class="game-info">Points: 
-        <label id="points">0</label>
-      </h2>
-      <h2 class="game-info" id="game">Cards remaining: 
-        <label id="cardsRemaining">52</label>
-      </h2>
+    <button id="higher">
+      <i class="fas fa-angle-double-up"></i> Higher Card 
+      <i class="fas fa-angle-double-up"></i> 
+    </button>
+    </div>
+    <h2><div id="output"></div></h2>
+    <h2>Points: <label id="points">0</label></h2>
+    <h2 id="game">Cards remaining: <label id="cardsRemaining">52</label></h2>
   </body>
 </html>
