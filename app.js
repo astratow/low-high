@@ -7,6 +7,15 @@ let score = 0; // points counting from 0
 let cardsRemaining = 52; //52 cards deck used
 
 
+// current date
+let currentdate = new Date(); 
+let datetime =    currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " at "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds(); 
+
 // id calls
 const acesHighest = document.getElementById("#acesHighCheckBoxId"); //checkbox allows user to decide value of ACE
 const card = document.getElementById("card"); //
@@ -17,11 +26,13 @@ const newGameButton = document.getElementById("newGame");
 const output = document.getElementById("output");
 const aces = document.getElementById("acesCheck");
 
+
 const NO_OF_HIGH_SCORES = 10;
 const HIGH_SCORES = 'highScores';
 const highScoreString = localStorage.getItem(HIGH_SCORES);
 const highScores = JSON.parse(highScoreString) || [];
 const highScoreList = document.getElementById(HIGH_SCORES);
+
 
 // API call
 const url_base = "https://deckofcardsapi.com/api/deck/"
@@ -154,10 +165,11 @@ function enableGameButtons(){
   higherButton.disabled = false;
 }
 
-// adds and dispalyspoints
+// adds and dispalys points
 function addPoints(){
     score++;
     document.getElementById("points").innerHTML = score;
+    return score;
 }
 
 // displays number of cards in the deck
@@ -179,24 +191,33 @@ async function convertRoyals(card) {
     }
 }
 
+
+function showHighScores() {
+  const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+  const highScoreList = document.getElementById('highScores');
+
+  highScoreList.innerHTML = highScores
+    .map((score) => `<li> Player  ${score.name} scored ${score.score} on ${datetime}`)
+    .join('');
+}
+
 function checkHighScore(score) {
   const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
   const lowestScore = highScores[NO_OF_HIGH_SCORES - 1]?.score ?? 0;
 
   if (score > lowestScore) {
     const name = prompt('You got a highscore! Enter name:');
-    const newScore = { score, name };
+    const newScore = { name, score, datetime };
     saveHighScore(newScore, highScores);
     showHighScores();
   }
 }
+
 function saveHighScore(score, highScores) {
   highScores.push(score);
   highScores.sort((a, b) => b.score - a.score);
   highScores.splice(NO_OF_HIGH_SCORES);
 
   localStorage.setItem('highScores', JSON.stringify(highScores));
-  highScoreList.innerHTML = highScores.map((score) => 
-  `<li>${score.score} - ${score.name}`
-);
 }
+
