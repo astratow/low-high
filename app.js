@@ -27,7 +27,7 @@ const output = document.getElementById("output");
 const aces = document.getElementById("acesCheck");
 const gameInfo = document.getElementById("gameTracker")
 
-
+// scoreboard variables and constants
 const NO_OF_HIGH_SCORES = 10;
 const HIGH_SCORES = "highScores";
 const highScoreString = localStorage.getItem(HIGH_SCORES);
@@ -48,7 +48,10 @@ const gameText = {
   end: "Game over!"
 };
 
+// invokes app start
+initialize();
 
+// gets data from API
 async function getDeck(){ 
     const res = await fetch(URL_BASE +
         "new/shuffle/?deck_count=1" );
@@ -57,9 +60,7 @@ async function getDeck(){
     
 }
 
-getDeck(); // Calls the function directly
-disableGameButtons(); // disables lower and higher buttons
-showHighScores(); //shows high scores
+
 
 // calls API and returns deck of cards
 async function drawFirstCard() {
@@ -75,7 +76,7 @@ async function drawFirstCard() {
 
 // calls API and draws a card
 async function drawNewCard() {
-  const res = await fetch(url_base + deck.deck_id +
+  const res = await fetch(URL_BASE + deck.deck_id +
       `/draw/?count=1`);
   const data = await res.json();
   image.setAttribute("src", data.cards[0].image);
@@ -93,8 +94,8 @@ async function drawNewCard() {
 drawCardButton.addEventListener("click", async() => {
   const firstCard = await drawFirstCard();
   arrayWithCards.push(firstCard);
-  drawCardButton.style.visibility = "hidden";
-  newGameButton.style.visibility = "hidden";
+  drawCardButton.disabled = true;;
+  newGameButton.disabled = true;;
 
   enableGameButtons();
 });
@@ -147,11 +148,18 @@ async function higher() {
 arrayWithCards.shift(); //removes the first card
 }
 
+// starts game app 
+function initialize(){
+  getDeck(); // Calls the function directly
+  disableGameButtons(); // disables lower and higher buttons
+  showHighScores(); //shows high scores
+}
+
 // quits the game
 function gameOver(){
     document.getElementById("game").innerHTML = gameText.end;
     disableGameButtons()
-    newGameButton.style.visibility = "visible";
+    newGameButton.disabled = false;
     gameInfo.style.color = "red";
     checkHighScore(score);
 }
@@ -195,13 +203,13 @@ async function convertRoyals(card) {
     }
 }
 
-// displays highest scores
+
 function showHighScores() {
   const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
   const highScoreList = document.getElementById("highScores");
 
   highScoreList.innerHTML = highScores
-    .map((score) => `<li> You scored ${score.score} at ${score.datetime}`)
+    .map((score) => `<li> You scored ${score.score} on ${score.datetime}</li>`)
     .join("");
 }
 
@@ -220,7 +228,6 @@ function saveHighScore(score, highScores) {
   highScores.push(score);
   highScores.sort((a, b) => b.score - a.score);
   highScores.splice(NO_OF_HIGH_SCORES);
-
   localStorage.setItem("highScores", JSON.stringify(highScores));
 }
 
