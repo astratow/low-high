@@ -29,14 +29,14 @@ const gameInfo = document.getElementById("gameTracker")
 
 
 const NO_OF_HIGH_SCORES = 10;
-const HIGH_SCORES = 'highScores';
+const HIGH_SCORES = "highScores";
 const highScoreString = localStorage.getItem(HIGH_SCORES);
 const highScores = JSON.parse(highScoreString) || [];
 const highScoreList = document.getElementById(HIGH_SCORES);
 
 
 // API call
-const url_base = "https://deckofcardsapi.com/api/deck/"
+const URL_BASE = "https://deckofcardsapi.com/api/deck/"
 
 // game text object
 const gameText = {
@@ -50,7 +50,7 @@ const gameText = {
 
 
 async function getDeck(){ 
-    const res = await fetch(url_base +
+    const res = await fetch(URL_BASE +
         "new/shuffle/?deck_count=1" );
     const data = await res.json();
     deck = data; // assigns data to the deck 
@@ -63,7 +63,7 @@ showHighScores(); //shows high scores
 
 // calls API and returns deck of cards
 async function drawFirstCard() {
-  const res = await fetch(url_base + deck.deck_id + `/draw/?count=1`);
+  const res = await fetch(URL_BASE + deck.deck_id + `/draw/?count=1`);
   const data = await res.json();
   image.setAttribute("src", data.cards[0].image);
   previousCard = convertRoyals(data.cards[0].value);
@@ -197,16 +197,16 @@ async function convertRoyals(card) {
 
 // displays highest scores
 function showHighScores() {
-  const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
-  const highScoreList = document.getElementById('highScores');
+  const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+  const highScoreList = document.getElementById("highScores");
 
   highScoreList.innerHTML = highScores
     .map((score) => `<li> You scored ${score.score} at ${score.datetime}`)
-    .join('');
+    .join("");
 }
 
 function checkHighScore(score) {
-  const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+  const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
   const lowestScore = highScores[NO_OF_HIGH_SCORES - 1]?.score ?? 0;
 
   if (score > lowestScore) {
@@ -221,6 +221,6 @@ function saveHighScore(score, highScores) {
   highScores.sort((a, b) => b.score - a.score);
   highScores.splice(NO_OF_HIGH_SCORES);
 
-  localStorage.setItem('highScores', JSON.stringify(highScores));
+  localStorage.setItem("highScores", JSON.stringify(highScores));
 }
 
