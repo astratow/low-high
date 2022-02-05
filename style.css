@@ -12,13 +12,15 @@ body{
 
 button{
     box-sizing: border-box;
-    border: white;  
+    border: black;
+    border-style: solid;  
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 1.4rem;
     padding: 0.3em;
-    margin: 0.4em   ;
+    margin: 0.2em;
+    border-radius: 0.5rem;
 }
 
 
@@ -31,7 +33,6 @@ button{
 
 }
 .main-container{   
-    display: flex;
     justify-content: center;
 }
 .game-control{

@@ -20,7 +20,7 @@ const aces = document.getElementById("acesCheck");
 const NO_OF_HIGH_SCORES = 10;
 const HIGH_SCORES = 'highScores';
 const highScoreString = localStorage.getItem(HIGH_SCORES);
-const highScores = JSON.parse(highScoreString) ?? [];
+const highScores = JSON.parse(highScoreString) || [];
 const highScoreList = document.getElementById(HIGH_SCORES);
 
 // API call
@@ -180,8 +180,8 @@ async function convertRoyals(card) {
 }
 
 function checkHighScore(score) {
-  const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES)) ?? [];
-  const lowestScore = highScores[NO_OF_HIGH_SCORES-1]?.score ?? 0;
+  const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES)) || [];
+  const lowestScore = highScores[NO_OF_HIGH_SCORES-1].score || 0;
   
   if (score > lowestScore) {
     saveHighScore(score, highScores);
