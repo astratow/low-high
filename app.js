@@ -1,8 +1,7 @@
 let deck={}; //creates a variable to save our deck in
-
 let previousCard = 0;
 let newCard = 0;
-let arraywithCards = [] //creates an array with the card to be compared
+let arrayWithCards = [] //creates an array with the card to be compared
 let points = 0;
 let cardsRemaining = 52;
 let acesHighest = document.getElementById("#acesHighCheckBoxId");
@@ -13,30 +12,36 @@ const higherButton = document.getElementById("higher");
 const drawCardButton = document.getElementById("drawCard");
 const output = document.getElementById("output");
 const url_base = "https://deckofcardsapi.com/api/deck/"
+const gameText = {
+  same: "The same card - You have got a point!",
+  correctLower: "Correct, it's lower!"
+}
 
 
 async function getDeck(){ 
     const res = await fetch(url_base +
         "new/shuffle/?deck_count=1" );
     const data = await res.json();
-    deck = data; // assigns data to our deck so that we can use the variable later
+    deck = data; // assigns data to the deck 
     
 }
 
 getDeck(); // Calls the function directly
-disableGameButtons();
+disableGameButtons(); // disables lower and higher buttons
 
+// calls API and returns deck of cards
 async function drawFirstCard() {
   const res = await fetch(url_base + deck.deck_id + `/draw/?count=1`);
   const data = await res.json();
   image.setAttribute("src", data.cards[0].image);
   previousCard = convertRoyals(data.cards[0].value);
   cardsRemaining = data.remaining;
-  document.getElementById("cardsRemaining").innerHTML = cardsRemaining;
+  displayRemainingCard();
   return previousCard;
 }
 
-async function drawnewCard() {
+// calls API and draws a card
+async function drawNewCard() {
   const res = await fetch(url_base + deck.deck_id +
       `/draw/?count=1`);
   const data = await res.json();
@@ -44,19 +49,17 @@ async function drawnewCard() {
   newCard = data.cards[0].value;
   newCard = convertRoyals(newCard);
   cardsRemaining = data.remaining;
-  
   if(cardsRemaining===0){
     gameOver();
   } else{
-    document.getElementById("cardsRemaining").innerHTML = cardsRemaining;
+    displayRemainingCard();
   }
-  
   return newCard;
   }
 
 drawCardButton.addEventListener("click", async() => {
   const firstCard = await drawFirstCard();
-  arraywithCards.push(firstCard);
+  arrayWithCards.push(firstCard);
   drawCardButton.style.visibility = "hidden";
   enableGameButtons();
 });
@@ -70,103 +73,75 @@ higherButton.addEventListener("click", async() => {
   await higher();
 });
 
+// starts new game by refreshing page
 newGame.addEventListener("click", async() => { 
   await location.reload();
 });
 
+// deals with click lower
 async function lower() {
-  const currentCard = await drawnewCard(); // draws a card
-  arraywithCards.push(currentCard); // adds the card
-
-  if (arraywithCards[0] > arraywithCards[1]) { 
-    output.textContent = "Correct, it's lower ";
+  const currentCard = await drawNewCard(); // draws a card
+  arrayWithCards.push(currentCard); 
+  if (arrayWithCards[0] > arrayWithCards[1]) { 
+    output.textContent = "Correct, it's lower!";
     addPoints();
-    
-  } else if (arraywithCards[0] === arraywithCards[1]){
+  } else if (arrayWithCards[0] === arrayWithCards[1]){
     output.textContent = "The same card - You have got a point!";
     addPoints();
-
   } else {
-    output.textContent = "It's higher, game over "
+    output.textContent = "It's higher, game over! "
     gameOver();
   }
-arraywithCards.shift(); //removes the first card
+arrayWithCards.shift(); //removes the first card
 }
 
-
+// deals with click higher
 async function higher() {
-  const currentCard = await drawnewCard(); // draws a card
-  arraywithCards.push(currentCard); // adds the card
-
-  if (arraywithCards[0] < arraywithCards[1]) { //compare the first card with the second
+  const currentCard = await drawNewCard(); // draws a card
+  arrayWithCards.push(currentCard); // adds the card
+  if (arrayWithCards[0] < arrayWithCards[1]) { //compare the first card with the second
     output.textContent = "Correct, it's higher!";
     addPoints();
-   
-  } else if (arraywithCards[0] === arraywithCards[1]){
+  } else if (arrayWithCards[0] === arrayWithCards[1]){
     output.textContent = "The same card - You have got a point!"
     addPoints();
-
   } else {
     output.textContent = "It's lower, game over!"
     gameOver();
   }
-arraywithCards.shift(); //removes the first card
+arrayWithCards.shift(); //removes the first card
 }
 
+// quits the game
 function gameOver(){
     document.getElementById("game").innerHTML = "Game over!";
     disableGameButtons()
 }
 
+// disables game functionality
 function disableGameButtons(){
   lowerButton.disabled = true;
   higherButton.disabled = true;
 }
 
+// enables game functionality
 function enableGameButtons(){
   lowerButton.disabled = false;
   higherButton.disabled = false;
 }
+
+// adds and dispalyspoints
 function addPoints(){
     points++;
     document.getElementById("points").innerHTML = points;
 }
 
+// displays number of cards in the deck
+function displayRemainingCard(){
+  document.getElementById("cardsRemaining").innerHTML = cardsRemaining;
+}
 
-
-// Check if it is between 2 and 10 in strings
-// async function convertRoyals(card) {
-//   switch (card) {
-//       case "2":
-//       case "3":
-//       case "4":
-//       case "5":
-//       case "6":
-//       case "7":
-//       case "8":
-//       case "9":
-//       case "10":
-//           return parseInt(card);
-
-//       case 'ACE':
-//           card = (acesHighest.checked) ? 14 : 1
-//           break
-//       case 'KING':
-//           card = 13
-//           break
-//       case 'QUEEN':
-//           card = 12
-//           break
-//       case 'JACK':
-//           card = 11
-//           break
-//       default:
-//           console.log("Somethings Wrong");
-//           break;
-//   }
-//   return card
-// }
-
+// converts cards value into integer
 async function convertRoyals(card) {
     if (card.match(/^\d+$/)) {
         return parseInt(card);

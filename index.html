@@ -12,33 +12,38 @@
     
       <header> 
         <nav>
-          <img src="./img/Higher_or_Lower_logo.png" alt="logo lower ot higher" class="logo-img">
-                <!-- <h1 class="title">Higher/Lower</h1> -->
+          <div class="dropdown-content">
+            <p>
+              Draw a card. Guess whether next one will be lower or higher (equal counts as a win).<br>If guessed correctly - you get a point, otherwise game ends.<br>
+              You can decide whether Ace is lowest or highest card by ticking the box: 
+            </p>
+          </div>
+          
         </nav>
       </header>
-      <p>
-        Draw a card. Guess whether next one will be lower or higher (equal counts as a win).<br>If guessed correctly - you get a point, otherwise game ends.<br>
-        You can decide whether Ace is lowest or highest card by ticking the box: 
-      </p>
-      <div>
+      
+    <div>
         <input type="checkbox" id="#acesHighCheckBoxId" name="aces"
          checked>
         <label for="scales">Highest Aces</label>
-      </div>
-      
-      <button id="newGame">New Game</button>
-      <button id="drawCard">Draw a Card</button>
-    <div id="card">
-        
-        <img id="image" src="./img/card-back.png" alt="" width="226" height="314"/>
+    </div>
+    <div>
+      <button class="game-btn" id="newGame">New Game</button>
+      <button class="game-btn" id="drawCard">Draw a Card</button>
+    </div>
+    <div class="deck" id="card">
+        <img class="deck" id="image" src="./img/card-back.png" alt="deck" width="226" height="314"/>
     </div>
    
-    <button id="lower"><< Lower Card</button>
-    <!-- <button id="sameCard">The Same Card</button> -->
-    <button id="higher">Higher Card>></button>
+    <button class="game-btn" id="lower"><< Lower Card</button>
+    <button class="game-btn" id="higher">Higher Card>></button>
     
     <div id="output"></div>
-    <h2>Points: <label id="points">0</label></h2>
-    <h2 id="game">Cards remaining: <label id="cardsRemaining">52</label></h2>
+      <h2 class="game-info">Points: 
+        <label id="points">0</label>
+      </h2>
+      <h2 class="game-info" id="game">Cards remaining: 
+        <label id="cardsRemaining">52</label>
+      </h2>
   </body>
 </html>
