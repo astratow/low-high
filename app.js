@@ -61,7 +61,6 @@ async function getDeck(){
 }
 
 
-
 // calls API and returns deck of cards
 async function drawFirstCard() {
   const res = await fetch(URL_BASE + deck.deck_id + `/draw/?count=1`);
@@ -94,9 +93,6 @@ async function drawNewCard() {
 drawCardButton.addEventListener("click", async() => {
   const firstCard = await drawFirstCard();
   arrayWithCards.push(firstCard);
-  drawCardButton.disabled = true;;
-  newGameButton.disabled = true;;
-
   enableGameButtons();
 });
 
@@ -111,7 +107,8 @@ higherButton.addEventListener("click", async() => {
 
 // starts new game by refreshing page
 newGameButton.addEventListener("click", async() => { 
-  await location.reload();
+  // await location.reload();
+  reset();
 });
 
 // deals with click lower
@@ -128,7 +125,7 @@ async function lower() {
     output.textContent =  gameText.wrong + gameText.higher;
     gameOver();
   }
-arrayWithCards.shift(); //removes the first card
+  arrayWithCards.shift(); //removes the first card
 }
 
 // deals with click higher
@@ -145,7 +142,7 @@ async function higher() {
     output.textContent = gameText.wrong + gameText.lower;
     gameOver();
   }
-arrayWithCards.shift(); //removes the first card
+  arrayWithCards.shift(); //removes the first card
 }
 
 // starts game app 
@@ -155,10 +152,16 @@ function initialize(){
   showHighScores(); //shows high scores
 }
 
+// game reset
+reset(){
+  newGameButton.disabled = true;
+  score = 0;
+  cardsRemaining = 52;
+}
 // quits the game
 function gameOver(){
     document.getElementById("game").innerHTML = gameText.end;
-    disableGameButtons()
+    disableGameButtons();
     newGameButton.disabled = false;
     gameInfo.style.color = "red";
     checkHighScore(score);
