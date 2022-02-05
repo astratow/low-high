@@ -24,6 +24,7 @@ async function getDeck(){
 }
 
 getDeck(); // Calls the function directly
+disableGameButtons();
 
 async function drawFirstCard() {
   const res = await fetch(url_base + deck.deck_id + `/draw/?count=1`);
@@ -57,7 +58,7 @@ drawCardButton.addEventListener("click", async() => {
   const firstCard = await drawFirstCard();
   arraywithCards.push(firstCard);
   drawCardButton.style.visibility = "hidden";
-  // drawCardButton.disabled = true;
+  enableGameButtons();
 });
 
 
@@ -77,13 +78,13 @@ async function lower() {
   const currentCard = await drawnewCard(); // draws a card
   arraywithCards.push(currentCard); // adds the card
 
-  if (arraywithCards[0] > arraywithCards[1]) { //compare the first card with the second
+  if (arraywithCards[0] > arraywithCards[1]) { 
     output.textContent = "Correct, it's lower ";
-    addPoints()
+    addPoints();
     
   } else if (arraywithCards[0] === arraywithCards[1]){
     output.textContent = "The same card - You have got a point!";
-    addPoints()
+    addPoints();
 
   } else {
     output.textContent = "It's higher, game over "
@@ -99,11 +100,11 @@ async function higher() {
 
   if (arraywithCards[0] < arraywithCards[1]) { //compare the first card with the second
     output.textContent = "Correct, it's higher!";
-    addPoints()
+    addPoints();
    
   } else if (arraywithCards[0] === arraywithCards[1]){
     output.textContent = "The same card - You have got a point!"
-    addPoints()
+    addPoints();
 
   } else {
     output.textContent = "It's lower, game over!"
@@ -114,10 +115,18 @@ arraywithCards.shift(); //removes the first card
 
 function gameOver(){
     document.getElementById("game").innerHTML = "Game over!";
-    lowerButton.disabled = true;
-    higherButton.disabled = true;
+    disableGameButtons()
 }
 
+function disableGameButtons(){
+  lowerButton.disabled = true;
+  higherButton.disabled = true;
+}
+
+function enableGameButtons(){
+  lowerButton.disabled = false;
+  higherButton.disabled = false;
+}
 function addPoints(){
     points++;
     document.getElementById("points").innerHTML = points;
@@ -163,7 +172,7 @@ async function convertRoyals(card) {
         return parseInt(card);
     } else {
         return {
-           "ACE": $(acesHighest.checked) ? 14 : 1,
+           "ACE": (acesHighest.checked) ? 14 : 1,
            "KING":13,
            "QUEEN":12,
            "JACK": 11
