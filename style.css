@@ -1,7 +1,6 @@
 *, *::after, *::before{
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body{
@@ -12,7 +11,6 @@ body{
 }
 
 button{
-    box-sizing: border-box;
     border: black;
     border-style: solid;  
     text-align: center;
