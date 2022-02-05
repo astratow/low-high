@@ -53,10 +53,10 @@ initialize();
 
 // gets data from API
 async function getDeck(){ 
-    const res = await fetch(URL_BASE +
-        "new/shuffle/?deck_count=1" );
-    const data = await res.json();
-    deck = data; // assigns data to the deck 
+  const res = await fetch(URL_BASE +
+      "new/shuffle/?deck_count=1" );
+  const data = await res.json();
+  deck = data; // assigns data to the deck 
     
 }
 
@@ -158,6 +158,7 @@ reset(){
   score = 0;
   cardsRemaining = 52;
 }
+
 // quits the game
 function gameOver(){
     document.getElementById("game").innerHTML = gameText.end;
@@ -167,13 +168,13 @@ function gameOver(){
     checkHighScore(score);
 }
 
-// disables game functionality
+// disables game controllers
 function disableGameButtons(){
   lowerButton.disabled = true;
   higherButton.disabled = true;
 }
 
-// enables game functionality
+// enables game controllers
 function enableGameButtons(){
   lowerButton.disabled = false;
   higherButton.disabled = false;
@@ -206,20 +207,19 @@ async function convertRoyals(card) {
     }
 }
 
-
+// adds scores to the list
 function showHighScores() {
   const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
   const highScoreList = document.getElementById("highScores");
-
   highScoreList.innerHTML = highScores
     .map((score) => `<li> You scored ${score.score} on ${score.datetime}</li>`)
     .join("");
 }
 
+//  validates scores, saves scores in local storage and displays scoreboard
 function checkHighScore(score) {
   const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
   const lowestScore = highScores[NO_OF_HIGH_SCORES - 1]?.score ?? 0;
-
   if (score > lowestScore) {
     const newScore = { score, datetime };
     saveHighScore(newScore, highScores);
@@ -227,6 +227,7 @@ function checkHighScore(score) {
   }
 }
 
+// saves scores, sorts and limites display to number set in NO_OF_HIGH_SCORES
 function saveHighScore(score, highScores) {
   highScores.push(score);
   highScores.sort((a, b) => b.score - a.score);
