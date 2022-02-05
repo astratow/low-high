@@ -5,6 +5,7 @@ let newCard = 0;
 let arraywithCards = [] //creates an array with the card to be compared
 let points = 0;
 let cardsRemaining = 52;
+let acesHighest = document.getElementById("#acesHighCheckBoxId");
 
 const card = document.getElementById("card");
 const lowerButton = document.getElementById("lower");
@@ -12,6 +13,7 @@ const higherButton = document.getElementById("higher");
 const drawCardButton = document.getElementById("drawCard");
 const output = document.getElementById("output");
 const url_base = "https://deckofcardsapi.com/api/deck/"
+
 
 async function getDeck(){ 
     const res = await fetch(url_base +
@@ -43,9 +45,7 @@ async function drawnewCard() {
   cardsRemaining = data.remaining;
   
   if(cardsRemaining===0){
-    document.getElementById("game").innerHTML = "Game over!";
-    lowerButton.disabled = true;
-    higherButton.disabled = true;
+    gameOver();
   } else{
     document.getElementById("cardsRemaining").innerHTML = cardsRemaining;
   }
@@ -79,19 +79,15 @@ async function lower() {
 
   if (arraywithCards[0] > arraywithCards[1]) { //compare the first card with the second
     output.textContent = "Correct, it's lower ";
-    points++;
-    document.getElementById("points").innerHTML = points;
+    addPoints()
     
   } else if (arraywithCards[0] === arraywithCards[1]){
     output.textContent = "The same card - You have got a point!";
-    points++;
-    document.getElementById("points").innerHTML = points;
+    addPoints()
 
   } else {
     output.textContent = "It's higher, game over "
-    document.getElementById("game").innerHTML = "Game over!";
-    lowerButton.disabled = true;
-    higherButton.disabled = true;
+    gameOver();
   }
 arraywithCards.shift(); //removes the first card
 }
@@ -103,57 +99,75 @@ async function higher() {
 
   if (arraywithCards[0] < arraywithCards[1]) { //compare the first card with the second
     output.textContent = "Correct, it's higher!";
-    points++;
-    document.getElementById("points").innerHTML = points;
+    addPoints()
    
   } else if (arraywithCards[0] === arraywithCards[1]){
     output.textContent = "The same card - You have got a point!"
-    points++;
-    document.getElementById("points").innerHTML = points;
+    addPoints()
 
   } else {
     output.textContent = "It's lower, game over!"
+    gameOver();
+  }
+arraywithCards.shift(); //removes the first card
+}
+
+function gameOver(){
     document.getElementById("game").innerHTML = "Game over!";
     lowerButton.disabled = true;
     higherButton.disabled = true;
-  }
-arraywithCards.shift(); //removes the first card
+}
+
+function addPoints(){
+    points++;
+    document.getElementById("points").innerHTML = points;
 }
 
 
 
 // Check if it is between 2 and 10 in strings
+// async function convertRoyals(card) {
+//   switch (card) {
+//       case "2":
+//       case "3":
+//       case "4":
+//       case "5":
+//       case "6":
+//       case "7":
+//       case "8":
+//       case "9":
+//       case "10":
+//           return parseInt(card);
+
+//       case 'ACE':
+//           card = (acesHighest.checked) ? 14 : 1
+//           break
+//       case 'KING':
+//           card = 13
+//           break
+//       case 'QUEEN':
+//           card = 12
+//           break
+//       case 'JACK':
+//           card = 11
+//           break
+//       default:
+//           console.log("Somethings Wrong");
+//           break;
+//   }
+//   return card
+// }
+
 async function convertRoyals(card) {
-  switch (card) {
-      case "2":
-      case "3":
-      case "4":
-      case "5":
-      case "6":
-      case "7":
-      case "8":
-      case "9":
-      case "10":
-          return parseInt(card);
-
-      case 'ACE':
-          card = 14
-          break
-      case 'KING':
-          card = 13
-          break
-      case 'QUEEN':
-          card = 12
-          break
-      case 'JACK':
-          card = 11
-          break
-      default:
-          console.log("Somethings Wrong");
-          break;
-  }
-  return card
+    if (card.match(/^\d+$/)) {
+        return parseInt(card);
+    } else {
+        return {
+           "ACE": $(acesHighest.checked) ? 14 : 1,
+           "KING":13,
+           "QUEEN":12,
+           "JACK": 11
+         }[card];
+    }
 }
-
-
 
