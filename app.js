@@ -59,6 +59,7 @@ async function getDeck(){
 
 getDeck(); // Calls the function directly
 disableGameButtons(); // disables lower and higher buttons
+showHighScores(); //shows high scores
 
 // calls API and returns deck of cards
 async function drawFirstCard() {
@@ -200,7 +201,7 @@ function showHighScores() {
   const highScoreList = document.getElementById('highScores');
 
   highScoreList.innerHTML = highScores
-    .map((score) => `<li> Player  ${score.name} scored ${score.score} on ${datetime}`)
+    .map((score) => `<li> You scored ${score.score} on ${datetime}`)
     .join('');
 }
 
@@ -209,8 +210,8 @@ function checkHighScore(score) {
   const lowestScore = highScores[NO_OF_HIGH_SCORES - 1]?.score ?? 0;
 
   if (score > lowestScore) {
-    const name = prompt('You got a highscore! Enter name:');
-    const newScore = { name, score, datetime };
+    // const name = prompt('You got a highscore! Enter name:');
+    const newScore = { score, datetime };
     saveHighScore(newScore, highScores);
     showHighScores();
   }

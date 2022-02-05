@@ -23,7 +23,9 @@ button{
     margin: 0.2em;
     border-radius: 0.5rem;
 }
-
+li{
+    text-decoration: none;
+}
 
 
 
