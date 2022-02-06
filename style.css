@@ -21,6 +21,13 @@ button{
     margin: 0.2em;
     border-radius: 0.5rem;
 }
+#highScoresList {
+    text-decoration: none;
+    list-style: none;
+    border: green;
+    border-style: solid;
+    border-radius: 0.5rem;
+}
 li{
     text-decoration: none;
 }
@@ -38,4 +45,13 @@ li{
 }
 .game-control{
     padding: 0.4em;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
 }

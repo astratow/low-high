@@ -17,7 +17,7 @@ let datetime =    currentdate.getDate() + "/"
                 + currentdate.getSeconds(); 
 
 // id calls
-const acesHighest = document.getElementById("#acesHighCheckBoxId"); //checkbox allows user to decide value of ACE
+const acesHighest = document.getElementById("acesHighCheckBoxId"); //checkbox allows user to decide value of ACE
 const card = document.getElementById("card"); //
 const lowerButton = document.getElementById("lower");
 const higherButton = document.getElementById("higher");
@@ -96,15 +96,15 @@ drawCardButton.addEventListener("click", async() => {
   arrayWithCards.push(firstCard);
   drawCardButton.disabled = true;
   newGameButton.disabled = true;
-
   enableGameButtons();
 });
 
-
+//button response for lower guess
 lowerButton.addEventListener("click", async() => {
   await lower();
 });
 
+// button response for higher guess
 higherButton.addEventListener("click", async() => {
   await higher();
 });
@@ -128,7 +128,7 @@ async function lower() {
     output.textContent =  gameText.wrong + gameText.higher;
     gameOver();
   }
-arrayWithCards.shift(); //removes the first card
+  arrayWithCards.shift(); //removes the first card
 }
 
 // deals with click higher
@@ -145,7 +145,7 @@ async function higher() {
     output.textContent = gameText.wrong + gameText.lower;
     gameOver();
   }
-arrayWithCards.shift(); //removes the first card
+  arrayWithCards.shift(); //removes the first card
 }
 
 // starts game app 
@@ -203,7 +203,7 @@ async function convertRoyals(card) {
     }
 }
 
-
+// functions operating on local storage and scoreboard
 function showHighScores() {
   const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
   const highScoreList = document.getElementById("highScores");
