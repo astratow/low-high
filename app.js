@@ -2,7 +2,7 @@
 let deck={}; //creates a variable to save our deck in
 let previousCard = 0;
 let newCard = 0;
-let arrayWithCards = [] //creates an array with the card to be compared
+let arrayWithCards = []; //creates an array with the card to be compared
 let score = 0; // points counting from 0
 let cardsRemaining = 52; //52 cards deck used
 
@@ -25,7 +25,7 @@ const drawCardButton = document.getElementById("drawCard");
 const newGameButton = document.getElementById("newGame");
 const output = document.getElementById("output");
 const aces = document.getElementById("acesCheck");
-const gameInfo = document.getElementById("gameTracker")
+const gameInfo = document.getElementById("gameTracker");
 
 // scoreboard variables and constants
 const NO_OF_HIGH_SCORES = 10;
@@ -53,12 +53,13 @@ initialize();
 
 // gets data from API
 async function getDeck(){ 
-  const res = await fetch(URL_BASE +
-      "new/shuffle/?deck_count=1" );
-  const data = await res.json();
-  deck = data; // assigns data to the deck 
+    const res = await fetch(URL_BASE +
+        "new/shuffle/?deck_count=1" );
+    const data = await res.json();
+    deck = data; // assigns data to the deck 
     
 }
+
 
 
 // calls API and returns deck of cards
@@ -93,6 +94,9 @@ async function drawNewCard() {
 drawCardButton.addEventListener("click", async() => {
   const firstCard = await drawFirstCard();
   arrayWithCards.push(firstCard);
+  drawCardButton.disabled = true;
+  newGameButton.disabled = true;
+
   enableGameButtons();
 });
 
@@ -105,10 +109,9 @@ higherButton.addEventListener("click", async() => {
   await higher();
 });
 
-// starts new game by refreshing page
+// starts new game 
 newGameButton.addEventListener("click", async() => { 
-  // await location.reload();
-  reset();
+  await location.reload();
 });
 
 // deals with click lower
@@ -125,7 +128,7 @@ async function lower() {
     output.textContent =  gameText.wrong + gameText.higher;
     gameOver();
   }
-  arrayWithCards.shift(); //removes the first card
+arrayWithCards.shift(); //removes the first card
 }
 
 // deals with click higher
@@ -142,7 +145,7 @@ async function higher() {
     output.textContent = gameText.wrong + gameText.lower;
     gameOver();
   }
-  arrayWithCards.shift(); //removes the first card
+arrayWithCards.shift(); //removes the first card
 }
 
 // starts game app 
@@ -152,29 +155,22 @@ function initialize(){
   showHighScores(); //shows high scores
 }
 
-// game reset
-reset(){
-  newGameButton.disabled = true;
-  score = 0;
-  cardsRemaining = 52;
-}
-
 // quits the game
 function gameOver(){
     document.getElementById("game").innerHTML = gameText.end;
-    disableGameButtons();
+    disableGameButtons()
     newGameButton.disabled = false;
     gameInfo.style.color = "red";
     checkHighScore(score);
 }
 
-// disables game controllers
+// disables game functionality
 function disableGameButtons(){
   lowerButton.disabled = true;
   higherButton.disabled = true;
 }
 
-// enables game controllers
+// enables game functionality
 function enableGameButtons(){
   lowerButton.disabled = false;
   higherButton.disabled = false;
@@ -207,19 +203,20 @@ async function convertRoyals(card) {
     }
 }
 
-// adds scores to the list
+
 function showHighScores() {
   const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
   const highScoreList = document.getElementById("highScores");
+
   highScoreList.innerHTML = highScores
     .map((score) => `<li> You scored ${score.score} on ${score.datetime}</li>`)
     .join("");
 }
 
-//  validates scores, saves scores in local storage and displays scoreboard
 function checkHighScore(score) {
   const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
   const lowestScore = highScores[NO_OF_HIGH_SCORES - 1]?.score ?? 0;
+
   if (score > lowestScore) {
     const newScore = { score, datetime };
     saveHighScore(newScore, highScores);
@@ -227,7 +224,6 @@ function checkHighScore(score) {
   }
 }
 
-// saves scores, sorts and limites display to number set in NO_OF_HIGH_SCORES
 function saveHighScore(score, highScores) {
   highScores.push(score);
   highScores.sort((a, b) => b.score - a.score);
