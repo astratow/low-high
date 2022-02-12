@@ -5,7 +5,7 @@ let newCard = 0;
 let arrayWithCards = []; //creates an array with the card to be compared
 let score = 0; // points counting from 0
 let cardsRemaining = 52; //52 cards deck used
-
+let gameOn = true;
 
 // current date
 let currentdate = new Date(); 
@@ -26,6 +26,7 @@ const newGameButton = document.getElementById("newGame");
 const output = document.getElementById("output");
 const aces = document.getElementById("acesCheck");
 const gameInfo = document.getElementById("gameTracker");
+const resetScoreButton = document.getElementById("resetScore");
 
 // scoreboard variables and constants
 const NO_OF_HIGH_SCORES = 10;
@@ -45,7 +46,8 @@ const gameText = {
   lower: "it's lower!",
   higher: "it's higher!",
   wrong: "I'm sorry, ",
-  end: "Game over!"
+  end: "Game over!",
+  win: "You Won!"
 };
 
 // invokes app start
@@ -157,10 +159,16 @@ function initialize(){
 
 // quits the game
 function gameOver(){
-    document.getElementById("game").innerHTML = gameText.end;
+    
     disableGameButtons()
     newGameButton.disabled = false;
-    gameInfo.style.color = "red";
+    if(cardsRemaining === 0){
+      gameInfo.style.color = "green";
+      document.getElementById("game").innerHTML = gameText.win;
+    }else{
+     gameInfo.style.color = "red";
+     document.getElementById("game").innerHTML = gameText.end;
+    }
     checkHighScore(score);
 }
 
@@ -231,3 +239,8 @@ function saveHighScore(score, highScores) {
   localStorage.setItem("highScores", JSON.stringify(highScores));
 }
 
+
+resetScoreButton.addEventListener("click", async() => {
+  await window.localStorage.clear();
+  await location.reload();
+});
