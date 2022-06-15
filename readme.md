@@ -16,3 +16,4 @@ which resets scoreboard.
 Also I added win game functionality, which in original project was just Game over.
 
 
+hi, added
