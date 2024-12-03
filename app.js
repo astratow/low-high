@@ -54,12 +54,15 @@ const gameText = {
 initialize();
 
 // gets data from API
-async function getDeck(){ 
-    const res = await fetch(URL_BASE +
-        "new/shuffle/?deck_count=1" );
+async function getDeck() {
+  try {
+    const res = await fetch(URL_BASE + "new/shuffle/?deck_count=1");
     const data = await res.json();
-    deck = data; // assigns data to the deck 
-    
+    deck = data;
+  } catch (error) {
+    console.error("Error fetching deck:", error);
+    output.textContent = "An error occurred while fetching the deck.";
+  }
 }
 
 
