@@ -65,10 +65,35 @@ async function getDeck() {
   }
 }
 
+function resetGame() {
+  // Reset state variables
+  score = 0;
+  arrayWithCards = [];
+  cardsRemaining = 52;
+  gameOn = true;
 
+  // Clear UI elements
+  output.textContent = ""; // Clear any game messages
+  document.getElementById("points").textContent = score; // Reset score display
+  document.getElementById("cardsRemaining").textContent = cardsRemaining; // Reset remaining cards count
+  document.getElementById("game").textContent = ""; // Clear win/lose message
+  image.setAttribute("src", "./img/card-back.png"); // Reset card image to the back of a card
+  
+  // Re-enable buttons
+  drawCardButton.disabled = false;
+  newGameButton.disabled = true; // Disable new game button until needed
+  disableGameButtons(); // Lower and Higher buttons should remain disabled initially
+  aces.style.visibility = "visible";
+  // Fetch a new deck
+  getDeck();
+}
 
 // calls API and returns deck of cards
 async function drawFirstCard() {
+  if (!deck.deck_id) {
+    output.textContent = "Deck not initialized. Please restart the game.";
+    return;
+  }
   const res = await fetch(URL_BASE + deck.deck_id + `/draw/?count=1`);
   const data = await res.json();
   image.setAttribute("src", data.cards[0].image);
@@ -116,7 +141,7 @@ higherButton.addEventListener("click", async() => {
 
 // starts new game 
 newGameButton.addEventListener("click", async() => { 
-  await location.reload();
+  resetGame();
 });
 
 // deals with click lower
