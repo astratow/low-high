@@ -1,1 +1,9 @@
-It needs to handle game differently, so reset game is not just refresh page.
+ Ace Value Toggle Logic - dedicated function
+ Game State Management - object
+ Button Management - Functions like disableGameButtons and enableGameButtons are fine but could be made dynamic to handle multiple button states in one function.
+ Deck Management
+ High Score Management - user feedback and notification
+ Card Image Reset
+ Error Handling
+ DateTime Formatting
+ Accessibility
